@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手风琴菜单</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        div,li{
+            background-color: #f0f0f0; 
+            width: 200px ; 
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            color: #b63b4d;
+        }
+        li{color:white;background-color: #444359;border-bottom: 1px #4b4a5e solid;}
+        body{background-color: #2d2c4e;}
+        ul{display: none;}
+        p{display: inline-block;}
+        .arrow{transform: rotate(90deg);display: inline-block; transition: all 1s;}
+        .active{transform: rotate(270deg);}
+        /*
+            作业：解决箭头问题，完善手风琴菜单
+            作业2:用jq重做选项卡作业
+            发文件
+
+            后续练习：淘宝菜单，购物车，抽奖大转盘
+        */
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <div><p>我是一级菜单</p> <p class="arrow">></p></div>
+    <ul>
+        <li>我是1-1</li>
+        <li>我是1-2</li>
+        <li>我是1-3</li>
+        <li>我是1-4</li>
+    </ul>
+    <div><p>我是二级菜单</p>  <p class="arrow">></p></div>
+    <ul>
+        <li>我是2-1</li>
+        <li>我是2-2</li>
+        <li>我是2-3</li>
+        <li>我是2-4</li>
+    </ul>
+    <div><p>我是三级菜单</p>  <p class="arrow">></p></div>
+    <ul>
+        <li>我是3-1</li>
+        <li>我是3-2</li>
+        <li>我是3-3</li>
+        <li>我是3-4</li>
+    </ul>
+    <div><p>我是四级菜单</p> <p class="arrow">></p></div>
+    <ul>
+        <li>我是4-1</li>
+        <li>我是4-2</li>
+        <li>我是4-3</li>
+        <li>我是4-4</li>
+    </ul>
+
+    <script>
+        // animate不支持transform属性
+        $('div').click(function(){
+            $(this).next().stop().slideToggle().siblings('ul').stop().slideUp()
+            // $(this).next().siblings('ul').stop().slideUp();
+            $(this).children('.arrow').toggleClass('active')//.parent().siblings().children('.arrow').removeClass('active');
+            $(this).siblings().children('.arrow').removeClass('active')
+        })
+            
+    </script>
+</body>
+</html>

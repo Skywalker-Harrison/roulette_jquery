@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .bg{width: 600px; height: 600px; background: url(./img/roulette-clean.png) no-repeat center; background-size: 100%;}
+        .whiteball{width: 20px; height: 20px; background-color: white; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+        .start{width: 100px; height: 50px; background-color: #ff6600; color: white; border: none; border-radius: 5px; margin-top: 20px;}
+        .start_ball{position: absolute; left: 200px; top: 100px;}
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>Roulette!</h1>
+    <div style="position: relative;">
+        <div class="bg"></div>
+        <div class="whiteball start_ball"></div>
+    </div>
+
+
+    <button class="start">开始</button>
+
+    <script>
+        
+        var centerPosition = {x:300,y:300};
+        var radius = 210;
+
+        //38 slots for roulette
+        var slots = 38;
+        var animation_interval=10
+        var degs = Array.from({length: slots}, (_, i) => i * (360 / slots));
+        console.log(degs)
+        var numbers=[32,17,5,22,34,15,3,24,36,13,1,-1,27,10,25,29,12,8,19,31,18,6,21,33,16,4,23,35,14,2,0,28,9,26,30,11,7,20]
+        var slot_count = 0
+        console.log(degs)
+        $('.start').click(
+            function(){
+            slot_count_orig = slot_count;
+            add_slot = Math.floor(Math.random()*38) + 38*3;
+            slot_count += add_slot
+            var number = numbers[slot_count%slots]
+            console.log(number)
+            for(i=slot_count_orig;i<slot_count;i++){
+                deg = degs[i%38];
+                position = getPosition(deg,centerPosition,radius)
+                $('.start_ball').animate(
+                    {
+                        "left": position.x,
+                        "top": position.y
+                    },animation_interval
+                )
+            }
+            // alert when the animation is over
+            
+            var time = setTimeout(function(){
+                if(number!=-1){
+                    alert('The final number is '+number+'.')
+                }else{
+                    alert('The final number is 00!')
+                }
+                
+            },add_slot*animation_interval+1000)
+    
+
+            
+        })
+
+
+        function getPosition(deg,centerPosition,radius){
+            var x = centerPosition.x + radius * Math.cos(deg * Math.PI / 180);
+            var y = centerPosition.y + radius * Math.sin(deg * Math.PI / 180);
+            return {x:x,y:y};
+        }
+    </script>
+    
+</body>
+</html>

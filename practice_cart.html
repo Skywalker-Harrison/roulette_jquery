@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery-3.7.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        .wrap{margin: auto; width: 800px;}
+        .product{border: 1px solid; border-left: none; border-right: 0; padding:20px}
+        .price{color: red;}
+        .pro_name{font-weight: bold;}
+        .total{margin-top: 200px;}
+        .deal{width: 80px; height: 30px; background-color: gray; border: none; }
+        .act{background-color:#ed535f; color: white; border: none;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="product">
+            <img class='sel un' src="img/unseleted.png">
+            <span class="pro_name">iphone16plus</span>
+            <span class="price">$1500</span>
+            <button>-</button>
+            <span class="count">1</span>
+            <button>+</button>
+            <img class='delete' src="img/delete.png">
+        </div>
+        <div class="product">
+            <img class='sel un' src="img/unseleted.png">
+            <span class="pro_name">imac pro</span>
+            <span class="price">$2399</span>
+            <button>-</button>
+            <span class="count">1</span>
+            <button>+</button>
+            <img class='delete' src="img/delete.png">
+        </div>
+        <div class="product">
+            <img class='sel un' src="img/unseleted.png">
+            <span class="pro_name">Nitendo Switch</span>
+            <span class="price">$469</span>
+            <button>-</button>
+            <span class="count">1</span>
+            <button>+</button>
+            <img class='delete' src="img/delete.png">
+        </div>
+        <div class="product">
+            <img class='sel un' src="img/unseleted.png">
+            <span class="pro_name">Pickleball Set</span>
+            <span class="price">$399</span>
+            <button>-</button>
+            <span class="count">1</span>
+            <button>+</button>
+            <img class='delete' src="img/delete.png">
+        </div>
+        <div class="total">
+            <img src="img/unseleted.png">
+            <span class="total_select">已选(0)</span>
+            <span class="total_price">$0.00</span>
+            <button class='deal' disabled>结算</button>
+        </div>
+    </div>
+    <script>
+        //加减号
+        $('.product button').click(function(){
+            var sign = $(this).text()
+            var org = Number($(this).siblings(".count").text())
+            if(sign=='+'){  
+                $(this).siblings(".count").text(org+1)
+            }else if(sign=='-'){
+                if(org>1){
+                    $(this).siblings(".count").text(org-1)
+                }
+            }
+            totalPrice();
+        })
+
+        //勾圈
+        $('.sel').click(function(){
+            //勾圈切换
+            if($(this).hasClass('un')){
+                $(this).attr('src','img/selected.png')
+                $(this).removeClass('un')
+                $(this).addClass('al')
+            }else{
+                $(this).attr('src','img/unseleted.png')
+                $(this).removeClass('al')
+                $(this).addClass('un')
+            }
+            productCount()
+
+            totalPrice()
+        })
+
+        //封装计算总价的函数
+        function totalPrice(){
+            //每一个选中商品的单价*数量
+            var total = 0
+            $('.al').each(function(){
+                var price = Number($(this).siblings('.price').text().slice(1))
+                var count = Number($(this).siblings('.count').text())
+                total += price*count;
+            })
+            $('.total_price').text('$'+total.toFixed(2))
+
+            //判断是否有选中商品
+            // if($('.al').length){
+            //     $('.deal').removeAttr('disabled')
+            //     $('.deal').addClass('act')
+            // }else{
+            //     $('.deal').attr('disabled','disabled')
+            //     $('.deal').removeClass('act')
+            // }
+
+            //in one line
+            $('.deal').prop('disabled', $('.al').length === 0).toggleClass('act', $('.al').length > 0);
+
+        }
+
+        //封装计算所选商品数量的函数
+        function productCount(){
+            var total_num = $('.product .sel').length
+            var selected_num = $('.product .sel').length - $('.product .un').length
+            $('.total_select').text(total_num==selected_num?'全选':'已选('+selected_num+'/'+total_num+')')
+            $('.total img').attr('src', total_num==selected_num?'img/selected.png':'img/unseleted.png')
+        }
+
+        $('.delete').click(function(){
+            $(this).parent().remove()
+            totalPrice()
+            productCount()
+        })
+        
+
+        //全选
+        $('.total img').click(function(){
+            var total_num = $('.product .sel').length
+            var selected_num = $('.product .sel').length - $('.product .un').length
+
+
+            // if(total_num==selected_num){
+            //     $('.sel').attr('src','img/unseleted.png')
+            //     $('.sel').removeClass('al')
+            //     $('.sel').addClass('un')
+            //     totalPrice()
+            //     productCount()
+            // }else{
+            //     $('.sel').attr('src','img/selected.png')
+            //     $('.sel').removeClass('un')
+            //     $('.sel').addClass('al')
+            //     totalPrice()
+            //     productCount()
+            // }
+
+
+            //in one line   
+            $('.sel').attr('src', total_num==selected_num?'img/unseleted.png':'img/selected.png').removeClass(total_num==selected_num?'al':'un').addClass(total_num==selected_num?'un':'al')
+            totalPrice()
+            productCount()
+        })
+        
+        
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="jquery-3.7.1.min.js"></script>
+    <title>Document</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        li{list-style: none;}
+        .wrap{width: 800px; margin: auto; margin-top: 100px;}
+        .type,.tag,.tips{float: left;}
+        .clear{clear: both;}
+        .tag li{
+            float: left; 
+            padding: 5px 15px; 
+            /* background-color: #ff6600;  */
+            margin-right: 5px; 
+            color: #003399; 
+            border-radius: 2px;
+        }
+        .tag .act{background-color: #ff6600; color: #ffffff;}
+        .wrap>div{margin-bottom: 10px;}
+        li:hover{color: #ff6600; background-color: #f3edc2;}
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="coat">
+            <p class="type">上装:</p>
+            <ul class="tag">
+                <li class="all act">全部</li>
+                <li>针织衫</li>
+                <li>毛呢外套</li>
+                <li>毛衣</li>
+                <li>卫衣</li>
+                <div class="clear"></div>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="pants">
+            <p class="type">裤子:</p>
+            <ul class="tag">
+                <li class="all act">全部</li>
+                <li>休闲裤</li>
+                <li>打底裤</li>
+                <li>变装裤</li>
+                <li>哈伦裤</li>
+                <li>不想穿裤子</li>
+                <div class="clear"></div>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="dress">
+            <p class="type">裙子:</p>
+            <ul class="tag">
+                <li class="all act">全部</li>
+                <li>连衣裙</li>
+                <li>中长款连衣裙</li>
+                <li>连衣裙</li>
+                <li>半身裙</li>
+                <div class="clear"></div>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="selected">
+            <p class="type">已选条件：</p>
+            <p class="tips">暂时没有选择过滤条件</p>
+            <ul class="tag">
+
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+    
+
+    <script>
+        $('li').not(".all").click(function(){
+            //实现点击元素高亮
+            $(this).addClass('act').siblings("li").removeClass('act')
+            //将选中项加入到厦门已选条件中     
+            var txt=$(this).text();
+            var type=$(this).parent().parent().attr('class')
+            console.log(type)
+            
+            appendText="<li class='act " + type + '\'>' + txt + "</li>"
+            console.log(appendText)
+            //如果所选板块的系列在下面没有则添加
+            if($(".selected ."+type).length){
+                $(".selected ."+type).text(txt)
+            }else{
+                $('.selected .tag').append(appendText)
+            }
+
+            //没有选中条件的提示文字
+            toggleTips()
+
+        
+        })
+        $('.all').click(function(){
+            var type=$(this).parent().parent().attr('class')
+            $('.selected .'+type).remove()
+            $(this).addClass('act')
+            $(this).siblings('li').removeClass('act')
+            toggleTips()
+        })
+
+
+        //点击已选条件删除
+        $(".selected").on("click","li",function(){
+            $(this).remove()
+            var type=$(this).attr('class').split(' ')[1]
+            $(".wrap>."+type).find(".all").addClass('act').siblings('li').removeClass('act')
+            toggleTips()
+        })
+
+        function toggleTips(){
+            //没有选中条件的提示文字
+            if($('.selected li').length){
+                $(".tips").hide()
+            }else{
+                $(".tips").show()
+            }
+        }
+    </script>
+</body>
+</html>

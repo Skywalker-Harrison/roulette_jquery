@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .bg{width: 600px; height: 600px; background: url(./img/roulette.png) no-repeat center; background-size: 100%;}
+        .blackball{width: 20px; height: 20px; background-color: white; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);}
+        .start{width: 100px; height: 50px; background-color: #ff6600; color: white; border: none; border-radius: 5px; margin-top: 20px;}
+        .start_ball{position: absolute; left: 200px; top: 100px;}
+    </style>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+    <h1>Roulette!</h1>
+    <div style="position: relative;">
+        <div class="bg"></div>
+        <div class="blackball start_ball"></div>
+    </div>
+
+
+    <button class="start">开始</button>
+
+    <script>
+        var deg = 0
+        $('.start').click(
+            function(){
+            deg += Math.floor(Math.random()*360)+1080;
+            console.log(deg);
+                $('.bg').stop().css({
+                    "transition": "all 5s",
+                    "transform": "rotate("+deg+"deg)"
+                })
+            }
+        )
+    </script>
+    
+</body>
+</html>

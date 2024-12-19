@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DOM</title>
+    <meta charset="UTF-8">
+    <script src="jquery-3.7.1.min.js"></script>
+    <style>
+        *{margin: 0; padding: 0;}
+        .tag{width: 80px; height: 50px; background-color: gray; float: left; text-align: center; line-height: 50px; margin-right: 5px; float: left;color: white;}
+        .content{width: 200px; height: 200px; background-color: pink; float: left; margin-right: 5px; margin-top: 5px; display: none;}
+        .act{display: block;}
+    </style>
+</head>
+<body>
+    <div>
+        <div class="tag">体育新闻</div>
+        <div class="tag">娱乐新闻</div>
+        <div class="tag">科技新闻</div>
+        <div class="tag">军事新闻</div>
+        <div style="clear: both;"></div>
+
+    </div>
+    <div>
+        <div class="content act">
+            <p>体育新闻1</p>
+            <p>体育新闻2</p>
+            <p>体育新闻3</p>
+        </div>
+        <div class="content">
+            <p>娱乐新闻1</p>
+            <p>娱乐新闻2</p>
+            <p>娱乐新闻3</p>
+        </div>
+        <div class="content">
+            <p>科技新闻1</p>
+            <p>科技新闻2</p>
+            <p>科技新闻3</p>
+        </div>
+        <div class="content">
+            <p>军事新闻1</p>
+            <p>军事新闻2</p>
+            <p>军事新闻3</p>
+        </div>
+    </div>
+    <script>
+        /*
+            this: 函数调用的时候，this指向的是调用函数的对象
+                谁在讲话我就是谁，谁调用这个函数，this就指向谁
+                    var divs = document.getElementsByTagName('div');
+                    var obj1 = {
+                        name: '张三',
+                        say: say
+                    }
+
+                    var obj2 = {
+                        name: '李四',
+                        say: say
+                    }
+
+                    function say(){
+                        console.log(this.name);
+                    }
+                    obj1.say(); //张三
+                    obj2.say(); //李四
+            window: 全局对象,所有的全局变量和函数都是window的属性和方法
+
+
+            //作业：顶部选项卡点谁谁高亮
+
+        */ 
+
+        $('.tag').click(function(){
+            $(this).css('background-color','red').siblings().css('background-color','gray');
+            var index = $(this).index();
+            $('.content').eq(index).css('display','block').siblings().css('display','none');
+        })
+
+
+        
+        // var tags = document.getElementsByClassName('tag');
+        // var contents = document.getElementsByClassName('content');
+        // var index = 0;
+        // for(var i=0;i<tags.length;i++){
+        //     tags[i].index = i;
+        //     tags[i].onclick=function(){
+        //         // 在改变颜色之前，先把所有的tag颜色改变为初始的灰色
+        //         for(var k=0;k<tags.length;k++){
+        //             tags[k].style.backgroundColor='gray';
+        //         }
+        //         this.style.backgroundColor='red';
+                
+        //         // 在display:block之前，先把所有的content隐藏
+        //         for(var j=0;j<contents.length;j++){
+        //             contents[j].style.display='none';
+        //         }
+        //         contents[this.index].style.display='block';
+
+        //     }
+            
+        // }
+        
+
+
+        // 1. 点击事件在循环结束后执行
+        // 2. 此时每个元素都绑定了事件
+        // 3. 但是事件中的i是全局变量，所以最后的i是4, 点击事件发生的时候，i已经是4了，所以divs[4]是undefined
+    </script>
+</body>
+
+
+</html>

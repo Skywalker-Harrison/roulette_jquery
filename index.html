@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+
+    <button class="btn" style="height: 100px; width: 100px; color: antiquewhite;">hide</button>
+    <button id="stop" style="height: 100px; width: 100px; color: antiquewhite;">stop</button>
+    <div class="box" style="height: 100px; width: 100px; background-color: red;">
+        <p>hello
+            <span>world</span>
+        </p>
+
+    </div>
+
+    <input id="weather">
+
+    <script>
+        /*
+            前端的框架：vue react
+            jquery是一个前端的库，封装了现成功能的js代码，供我们直接使用
+            substring:截取字符串,  例子：substring(1) 从第二个字符开始截取
+                    //封装DOM操作,toy example
+                function $(n){
+                        if(n[0]=='#'){
+                            return document.getElementById(n.substring(1));
+                        }else if(n[0]=='.'){
+                            return document.getElementsByClassName(n.substring(1))[0];
+                        }else{
+                            return document.getElementsByTagName(n)[0];
+                        }
+                }
+
+                function hide(n){
+                    $(n).style.display = 'none';
+                }
+
+                $('.btn').onclick = function(){
+                    hide('.box');
+                }
+
+
+            1. 选择器
+                $('#box')  通过id选择器
+                $('.box')  通过class选择器
+                $('div')  通过标签选择器
+                $('*')  通过所有选择器
+
+                自动选出所有的元素，返回一个自动循环的迭代器
+                    注意：js原生和jquery不能混用，jquery是一个独立的库，不能和原生js混用（选择器和方法不能混用）
+                $(选择器：first) 选出第一个元素,先取出冒号前面选择器的元素，再按照冒号后面的规则
+                $('div ~ p') 选出div后面的所有同级p元素
+            2. 事件：click, focus, blue, mousemove, mouseover, mouseout, mouseenter, mouseleave, keydown, keyup, keypress, change, submit, load, resize, scroll, unload, error
+                $('.btn').click(function(){
+                    //事件处理函数
+                });
+                jq中使用this要加上$(this)
+
+
+                on:  $('.btn').on('click', function(){
+                            //事件处理函数
+                        });
+                增加事件处理函数，如果有些元素后期添加，可以通过事件委托对这些元素增加事件
+                ready: $(document).ready(function(){
+                            //页面加载完成后执行
+                        });
+            3. 显示/隐藏
+                hide show, 传参可以是时间，也可以是函数， slow, fast, 1000
+                toggle:     $('.btn').click(function(){
+                                $('.box').toggle(1000);
+                            }); 切换显示和隐藏
+                fadeIn fadeOut fadeToggle 淡出淡入
+                slideDown slideUp slideToggle 滑动
+            4. css方法
+                css('background-color', 'blue');  设置css样式
+                css('background-color');  获取css样式
+                修改多个：css({key1: value1, key2: value2})
+                animate: 用法同css, 但是可以设置动画效果,但是不支持动画
+            5. 停止动画
+                stop()  停止当前动态效果
+            6. jq链式操作
+                $('.btn').click(function(){
+                    $('.box').hide().show().fadeOut().fadeIn();
+                });
+                先停止当前动画，再执行下一个动画
+            7. jq回调函数
+                callback: function(){
+                    //回调函数
+                }
+            8. DOM操作相关方法
+                text()  获取文本内容
+                html()  获取html内容
+                val()  获取表单元素的值
+                attr()  获取属性值
+                append()  在元素内部的最后面添加内容
+                prepend()  在元素内部的最前面添加内容
+                after()  在元素外部（同级）的后面添加内容
+                before()  在元素外部（同级）的前面添加内容
+                remove()  删除元素
+                empty()  清空元素,只清空元素内部的内容
+                addClass()  添加类
+                removeClass()  删除类
+                toggleClass()  切换类
+                width()  获取宽度
+                height()  获取高度
+                innerWidth()  获取内部宽度
+                innerHeight()  获取内部高度
+                ready()  页面加载完成后执行
+            9.遍历
+                parent() 获取所选元素的直接父元素,括号中可以用选择器过滤
+                parents() 获取所选元素的所有父元素,括号中可以用选择器过滤
+                parentsUntil() 获取所选元素的所有父元素，直到某个元素
+                children() 获取所选元素的所有直接子元素,括号中可以用选择器过滤
+                find() 获取所选元素的所有后代元素,css必须传
+                siblings() 获取所选元素的所有同级元素,括号中可以用选择器过滤 (不包含自己)
+                next() 获取所选元素的下一个同级元素,括号中可以用选择器过滤
+                nextAll() 获取所选元素的所有后面的同级元素,括号中可以用选择器过滤
+                nextUntil() 获取所选元素的所有后面的同级元素，直到某个元素
+                prev() 获取所选元素的上一个同级元素,括号中可以用选择器过滤
+                prevAll() 获取所选元素的所有前面的同级元素,括号中可以用选择器过滤
+                prevUntil() 获取所选元素的所有前面的同级元素，直到某个元素
+                first() 获取所选元素的第一个元素,等效于:first
+                last() 获取所选元素的最后一个元素,等效于:last
+                eq() 获取所选元素的指定索引元素,括号中传入索引值
+                filter() 获取所选元素的指定元素,括号中传入选择器
+                not() 获取除了指定元素的其他元素,括号中传入选择器
+            10. jq ajax:
+                $.ajax({
+                    url: 'url',
+                    type: 'get',
+                    data: {key: value},
+                    success: function(data){
+                        //成功回调，data是后端返回的数据
+                    },
+                    error: function(){
+                        //失败回调
+                    }
+                    dataType: 'json' //预期返回的数据类型,jsonp可以跨域
+                    timeout: 5000 //超时时间
+
+                });
+                $.get('url', {key: value}, function(data){
+                    //成功回调
+                });
+                $.post('url', {key: value}, function(data){
+                    //成功回调
+                });
+
+        */
+
+        $('input').blur(function(){
+            var city = $(this).val();
+            $.ajax({
+                url: 'https://restapi.amap.com/v3/weather/weatherInfo?',
+                type: 'get',
+                data: {
+                    key:'c3045d7a239ca7acb53f93d7c37ce090',
+                    city: $(this).val(),
+                    extensions: 'all',
+                },
+                success: function(data){
+                    console.log(data);
+                },
+                error: function(){
+                    console.log('error');
+                },
+                dataType: 'json'
+            });
+        })
+        
+
+
+
+    </script>
+</body>
+</html>
